@@ -74,7 +74,7 @@ st.markdown("""
 
 # Model Settings
 MODEL_PATH = "news_classifier_bert_v1"
-FALLBACK_MODEL = "bert-base-uncased"
+FALLBACK_MODEL = "ayesha-mt513/bert-news-classifier"
 LABEL_NAMES = ["World", "Sports", "Business", "Sci/Tech"]
 LABEL_ICONS = {
     "World": "🌍",
