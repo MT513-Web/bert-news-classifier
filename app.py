@@ -73,7 +73,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Model Settings
-MODEL_PATH = "./news_classifier_bert_v1"
+MODEL_PATH = "news_classifier_bert_v1"
+FALLBACK_MODEL = "bert-base-uncased"
 LABEL_NAMES = ["World", "Sports", "Business", "Sci/Tech"]
 LABEL_ICONS = {
     "World": "🌍",
@@ -171,9 +172,12 @@ with btn_col2:
 # 2. Cached Resource Loader
 @st.cache_resource(show_spinner=False)
 def load_model_assets():
+    import os
     from transformers import AutoTokenizer, BertForSequenceClassification
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
-    model = BertForSequenceClassification.from_pretrained(MODEL_PATH)
+    
+    target_path = MODEL_PATH if os.path.exists(MODEL_PATH) else FALLBACK_MODEL
+    tokenizer = AutoTokenizer.from_pretrained(target_path)
+    model = BertForSequenceClassification.from_pretrained(target_path, num_labels=len(LABEL_NAMES))
     model.eval()
     return tokenizer, model
 
